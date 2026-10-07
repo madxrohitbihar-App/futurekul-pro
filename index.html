@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutureKul</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body, html {
+            width: 100%;
+            height: 100%;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #181014;
+            overflow: hidden;
+        }
+
+        /* App Container */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Top Custom Header - Unchanged and Fixed */
+        .top-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: #181014;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            flex-shrink: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease, height 0.3s ease;
+        }
+        .top-header.hidden-header {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+            height: 0;
+            border: none;
+            overflow: hidden;
+        }
+        .header-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .cw-brand-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(35, 22, 28, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 4px 14px 4px 6px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        .cw-header-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+        .brand-text-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .cw-title-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .cw-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        .cw-verified {
+            width: 14px;
+            height: 14px;
+            background: #38bdf8;
+            color: #181014;
+            border-radius: 50%;
+            font-size: 9px;
+            font-weight: 900;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .developer-subtext {
+            font-size: 10px;
+            color: #b5a4ac;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        /* Iframe Container */
+        .iframe-container {
+            flex-grow: 1;
+            width: 100%;
+            background: #181014;
+            position: relative;
+            overflow: hidden;
+        }
+        iframe {
+            width: 100%;
+            /* Upar ka margin same rakha hai, niche ka margin aur badha diya hai taaki footer hide ho jaye */
+            height: calc(100% + 220px);
+            margin-top: -105px;
+            margin-bottom: -115px;
+            border: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Top Custom Header -->
+        <header class="top-header" id="mainHeader">
+            <div class="header-container">
+                <div class="header-left">
+                    <div class="cw-brand-badge">
+                        <img class="cw-header-logo" src="https://i.postimg.cc/43tdnDHK/image-search-1791337895696.jpg" alt="Logo">
+                        <div class="brand-text-group">
+                            <div class="cw-title-row">
+                                <span class="cw-title">FutureKul</span>
+                                <span class="cw-verified">✓</span>
+                            </div>
+                            <span class="developer-subtext">Developer By MedxrohitBihar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Website Area -->
+        <div class="iframe-container">
+            <iframe id="appFrame" src="https://nexthope.pages.dev/futurekul/" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Auto hide/show header based on inner iframe URL or video/player state
+        window.addEventListener('load', function() {
+            const iframe = document.getElementById('appFrame');
+            const header = document.getElementById('mainHeader');
+
+            try {
+                iframe.addEventListener('load', function() {
+                    const iframeWin = iframe.contentWindow;
+                    
+                    setInterval(function() {
+                        try {
+                            const currentUrl = iframeWin.location.href.toLowerCase();
+                            if (currentUrl.includes('play') || currentUrl.includes('video') || currentUrl.includes('watch') || currentUrl.includes('class') || currentUrl.includes('player')) {
+                                header.classList.add('hidden-header');
+                            } else {
+                                header.classList.remove('hidden-header');
+                            }
+                        } catch (e) {}
+                    }, 500);
+                });
+            } catch (e) {}
+        });
+    </script>
+
+</body>
+</html>
